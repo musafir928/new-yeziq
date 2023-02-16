@@ -97,7 +97,9 @@ function App() {
                     <div>nishan font</div>
                 </div>
                 <Divider />
-                <Button variant='contained'>ئۆرۈش</Button>
+                <Button variant='contained' onClick={handleChnage}>
+                    ئۆرۈش
+                </Button>
             </div>
         </div>
     );
