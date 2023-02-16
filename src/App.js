@@ -8,42 +8,57 @@ import {
     Divider,
     TextField
 } from '@mui/material';
-import FontPicker from 'font-picker-react';
 import { translateUtil } from './yeziq';
+import { Editor } from '@tinymce/tinymce-react';
+import { auto } from '@popperjs/core';
 
 function App() {
-    const ot = useRef();
-    const tt = useRef();
-    const [ol, setOl] = useState('uy');
-    const [tl, setTl] = useState('uy');
-    const [oof, setOf] = useState('Open sans');
-    const [tf, setTf] = useState('Open sans');
+    const ot = useRef(null);
+    const tt = useRef(null);
+    const [ol, setOl] = useState('u');
+    const [tl, setTl] = useState('u');
 
-    const handleChnage = () => {
-        const result = translateUtil(ot.current.value, ol + '|' + tl);
-        tt.current.value = result;
+    const handleChange = () => {
+        const result1 = translateUtil(ot.current.getContent({ format: 'text' }), ol + '|' + tl);
+        tt.current.setContent(result1);
     };
-
     return (
         <div className='App'>
             <div className='left'>
-                <TextField
-                    id='outlined-multiline-flexible'
-                    label='menbe'
-                    multiline
-                    maxRows={13}
-                    className='apply-font-origin'
-                    dir='auto'
-                    ref={ot}
+                <Editor
+                    onInit={(evt, editor) => (ot.current = editor)}
+                    className='fp'
+                    apiKey='z6dc9tmyf792whv0czwxbvpcc69957d1i9m1py3caokq1aw7'
+                    init={{
+                        height: 300,
+                        menubar: false,
+                        directionality: auto,
+                        toolbar:
+                            'undo redo | formatselect | fontfamily fontsize ' +
+                            'bold italic backcolor | alignleft aligncenter ' +
+                            'alignright alignjustify | bullist numlist outdent indent | ' +
+                            'removeformat | help',
+                        content_style:
+                            'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                    }}
                 />
-                <TextField
-                    id='outlined-multiline-flexible'
-                    label='target'
-                    multiline
-                    maxRows={12}
-                    className='apply-font-target'
-                    dir='auto'
-                    ref={TextTrackCueList}
+                <Divider />
+                <Editor
+                    onInit={(evt, editor) => (tt.current = editor)}
+                    className='fp'
+                    apiKey='z6dc9tmyf792whv0czwxbvpcc69957d1i9m1py3caokq1aw7'
+                    init={{
+                        directionality: auto,
+                        height: 300,
+                        menubar: false,
+                        toolbar:
+                            'undo redo | formatselect | fontfamily fontsize ' +
+                            'bold italic backcolor | alignleft aligncenter ' +
+                            'alignright alignjustify | bullist numlist outdent indent | ' +
+                            'removeformat | help',
+                        content_style:
+                            'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                    }}
                 />
             </div>
             <div className='right'>
@@ -77,27 +92,7 @@ function App() {
                     </Select>
                 </FormControl>
                 <Divider />
-                <div className='fp'>
-                    <FontPicker
-                        apiKey='AIzaSyDmyY-2siMDS7mr2oFO9Rbs9aHpBQaBEIY'
-                        activeFontFamily={oof}
-                        pickerId='origin'
-                        onChange={(nextFont) => setOf(nextFont.family)}
-                    />
-                    <div> menbe font</div>
-                </div>
-                <Divider />
-                <div className='fp'>
-                    <FontPicker
-                        apiKey='AIzaSyDmyY-2siMDS7mr2oFO9Rbs9aHpBQaBEIY'
-                        activeFontFamily={tf}
-                        pickerId='target'
-                        onChange={(nextFont) => setTf(nextFont.family)}
-                    />
-                    <div>nishan font</div>
-                </div>
-                <Divider />
-                <Button variant='contained' onClick={handleChnage}>
+                <Button variant='contained' onClick={handleChange}>
                     ئۆرۈش
                 </Button>
             </div>
